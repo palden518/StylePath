@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StylePath | Ask Friends</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h2 class="top-brand">Style<span>Path</span></h2>
+  <small>Get a second opinion</small>
+</header>
+
+<main class="main">
+
+  <h1>Ask friends ♡</h1>
+  <p class="subtitle">
+    Want a second opinion? Share an outfit privately with
+    someone you trust. This feature is optional.
+  </p>
+
+  <section class="card">
+
+    <h2>Share an outfit idea</h2>
+
+    <label>Friend's name
+      <input id="friendName" placeholder="Enter a friend's name">
+    </label>
+
+    <label>What would you like to ask?
+      <textarea id="friendQuestion"
+        rows="4"
+        placeholder="Which outfit works better for dinner?"></textarea>
+    </label>
+
+    <label class="checkbox-label">
+      <input type="checkbox" id="hideFace" checked>
+      Hide faces and personal background details
+    </label>
+
+    <p class="muted">
+      Shared links are intended to expire after 24 hours.
+    </p>
+
+    <button class="btn spaced" onclick="shareOutfit()">
+      Prepare private share
+    </button>
+
+    <button class="btn btn-secondary spaced"
+            onclick="skipSharing()">
+      Skip this step
+    </button>
+
+    <div id="shareMessage"></div>
+
+  </section>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="home.html">⌂<span>Home</span></a>
+  <a href="wardrobe.html">♧<span>Wardrobe</span></a>
+  <a href="discover.html">✧<span>Discover</span></a>
+  <a href="planner.html">▦<span>Planner</span></a>
+  <a href="profile.html">⚙<span>Profile</span></a>
+</nav>
+
+<script src="script.js"></script>
+</body>
+</html>

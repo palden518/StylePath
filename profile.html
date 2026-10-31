@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StylePath | Profile</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h2 class="top-brand">Style<span>Path</span></h2>
+  <small>Your settings</small>
+</header>
+
+<main class="main">
+
+  <h1>Profile and privacy</h1>
+  <p class="subtitle">
+    Manage your preferences and how your information is used.
+  </p>
+
+  <section class="card">
+
+    <h2>Personal preferences</h2>
+
+    <label>Your name
+      <input id="profileName" value="StylePath User">
+    </label>
+
+    <label>Preferred style
+      <select id="preferredStyle">
+        <option>Casual</option>
+        <option>Minimalist</option>
+        <option>Smart casual</option>
+        <option>Classic</option>
+        <option>Creative</option>
+      </select>
+    </label>
+
+    <h2 class="spaced">Privacy settings</h2>
+
+    <label class="checkbox-label">
+      <input type="checkbox" checked>
+      Keep my wardrobe private by default
+    </label>
+
+    <label class="checkbox-label">
+      <input type="checkbox" checked>
+      Ask before sharing outfit information
+    </label>
+
+    <label class="checkbox-label">
+      <input type="checkbox" checked>
+      Allow face and background hiding options
+    </label>
+
+    <button class="btn spaced" onclick="saveProfile()">
+      Save preferences
+    </button>
+
+    <div id="profileMessage"></div>
+
+  </section>
+
+  <p class="footer-note">
+    StylePath prototype: preferences are demonstration settings.
+    A production application would require secure account storage.
+  </p>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="home.html">⌂<span>Home</span></a>
+  <a href="wardrobe.html">♧<span>Wardrobe</span></a>
+  <a href="discover.html">✧<span>Discover</span></a>
+  <a href="planner.html">▦<span>Planner</span></a>
+  <a class="active" href="profile.html">⚙<span>Profile</span></a>
+</nav>
+
+<script src="script.js"></script>
+</body>
+</html>

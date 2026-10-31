@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StylePath | Discover</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h2 class="top-brand">Style<span>Path</span></h2>
+  <small>Find your outfit</small>
+</header>
+
+<main class="main">
+
+  <h1>Discover your outfit ✨</h1>
+  <p class="subtitle">
+    Tell StylePath about your plans and receive outfit ideas
+    using your existing wardrobe.
+  </p>
+
+  <section class="card">
+
+    <h2>What is the occasion?</h2>
+
+    <label>Occasion
+      <select id="occasion">
+        <option>University / Everyday</option>
+        <option>Work</option>
+        <option>Casual outing</option>
+        <option>Dinner</option>
+        <option>Special event</option>
+        <option>Exercise</option>
+      </select>
+    </label>
+
+    <label>Weather
+      <select id="weather">
+        <option>Sunny</option>
+        <option>Warm</option>
+        <option>Cold</option>
+        <option>Rainy</option>
+        <option>Windy</option>
+      </select>
+    </label>
+
+    <label>How would you like to feel?
+      <select id="mood">
+        <option>Comfortable</option>
+        <option>Confident</option>
+        <option>Smart and polished</option>
+        <option>Relaxed</option>
+        <option>Creative</option>
+      </select>
+    </label>
+
+    <button class="btn" onclick="generateOutfit()">
+      Generate outfit ideas ✨
+    </button>
+
+  </section>
+
+  <section id="recommendations" class="spaced"></section>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="home.html">⌂<span>Home</span></a>
+  <a href="wardrobe.html">♧<span>Wardrobe</span></a>
+  <a class="active" href="discover.html">✧<span>Discover</span></a>
+  <a href="planner.html">▦<span>Planner</span></a>
+  <a href="profile.html">⚙<span>Profile</span></a>
+</nav>
+
+<script src="script.js"></script>
+</body>
+</html>

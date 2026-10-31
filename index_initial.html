@@ -1,0 +1,1253 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StylePath | Your Personal Style Planner</title>
+
+  <style>
+    :root {
+      --purple: #7054a5;
+      --purple-dark: #50377f;
+      --lavender: #eee8f7;
+      --pink: #f6e8ef;
+      --cream: #fbf9f6;
+      --ink: #302a38;
+      --muted: #817b88;
+      --white: #ffffff;
+      --border: #e9e4ed;
+      --green: #527b67;
+      --shadow: 0 8px 28px rgba(55, 39, 76, .08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Splash screen */
+
+    #splash {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 25px;
+      background:
+        radial-gradient(circle at top left, #f7eaf2, transparent 48%),
+        linear-gradient(135deg, #f5f0fa, #eee7f5);
+    }
+
+    .splash-content {
+      max-width: 420px;
+    }
+
+    .logo-mark {
+      width: 105px;
+      height: 105px;
+      margin: 0 auto 22px;
+      border-radius: 32px;
+      background: var(--purple);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 49px;
+      font-weight: bold;
+      box-shadow: 0 14px 30px rgba(112, 84, 165, .25);
+    }
+
+    .brand-name {
+      font-family: Georgia, serif;
+      font-size: 49px;
+      color: var(--purple-dark);
+      letter-spacing: -2px;
+    }
+
+    .tagline {
+      color: var(--muted);
+      margin: 12px 0 30px;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+
+    .splash-description {
+      color: #625b6c;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    /* Buttons */
+
+    .btn {
+      border: none;
+      border-radius: 13px;
+      padding: 13px 20px;
+      background: var(--purple);
+      color: white;
+      font-weight: 600;
+      transition: .2s;
+    }
+
+    .btn:hover {
+      background: var(--purple-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--lavender);
+      color: var(--purple-dark);
+    }
+
+    .btn-secondary:hover {
+      background: #e1d7ef;
+    }
+
+    .btn-outline {
+      background: white;
+      color: var(--purple);
+      border: 1px solid #d9cde9;
+    }
+
+    .btn-danger {
+      background: #f7e8e8;
+      color: #9b4d4d;
+    }
+
+    .btn-small {
+      padding: 9px 13px;
+      font-size: 13px;
+    }
+
+    /* Main app layout */
+
+    #app {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .top-brand {
+      font-family: Georgia, serif;
+      font-size: 25px;
+      font-weight: bold;
+      color: var(--purple-dark);
+    }
+
+    .top-brand span {
+      color: #b68eb3;
+    }
+
+    .topbar small {
+      color: var(--muted);
+    }
+
+    .layout {
+      display: flex;
+      max-width: 1250px;
+      margin: auto;
+      min-height: calc(100vh - 65px);
+    }
+
+    .sidebar {
+      width: 220px;
+      padding: 25px 15px;
+      border-right: 1px solid var(--border);
+      background: white;
+      flex-shrink: 0;
+    }
+
+    .nav-button {
+      width: 100%;
+      display: block;
+      border: none;
+      background: transparent;
+      text-align: left;
+      padding: 13px 14px;
+      margin-bottom: 6px;
+      border-radius: 11px;
+      color: #665e70;
+      font-size: 14px;
+    }
+
+    .nav-button:hover,
+    .nav-button.active {
+      background: var(--lavender);
+      color: var(--purple-dark);
+      font-weight: bold;
+    }
+
+    .main {
+      flex: 1;
+      padding: 35px;
+      min-width: 0;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+      animation: appear .25s ease;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 9px;
+    }
+
+    h2 {
+      font-size: 19px;
+      margin-bottom: 15px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    /* Cards */
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 21px;
+      box-shadow: var(--shadow);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .three-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .hero-card {
+      background: linear-gradient(120deg, #eee7f7, #f8eaf0);
+      border-radius: 22px;
+      padding: 30px;
+      margin-bottom: 22px;
+    }
+
+    .hero-card p {
+      color: #62586d;
+      line-height: 1.6;
+      margin: 12px 0 20px;
+    }
+
+    .stat {
+      font-size: 27px;
+      font-weight: bold;
+      color: var(--purple-dark);
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Wardrobe */
+
+    .wardrobe-item {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .item-picture {
+      min-height: 130px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f3eff7;
+      font-size: 64px;
+    }
+
+    .item-info {
+      padding: 14px;
+    }
+
+    .item-info p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    input, select, textarea {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      background: white;
+      color: var(--ink);
+      width: 100%;
+      margin-top: 7px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: bold;
+      display: block;
+      margin: 13px 0;
+    }
+
+    /* Outfit recommendations */
+
+    .outfit-visual {
+      background: #f4eff8;
+      min-height: 170px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 46px;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .reason {
+      background: #f2f7f3;
+      color: #426b54;
+      padding: 13px;
+      border-radius: 11px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 12px 0;
+    }
+
+    .pill {
+      display: inline-block;
+      background: var(--lavender);
+      color: var(--purple-dark);
+      padding: 6px 10px;
+      border-radius: 30px;
+      font-size: 12px;
+      margin: 4px 3px 4px 0;
+    }
+
+    /* Planner */
+
+    .day-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      border-bottom: 1px solid var(--border);
+      padding: 15px 0;
+    }
+
+    .day-row:last-child {
+      border-bottom: none;
+    }
+
+    /* Utility */
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .spaced {
+      margin-top: 20px;
+    }
+
+    .success-message {
+      color: var(--green);
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--muted);
+      padding: 35px 10px;
+    }
+
+    .footer-note {
+      margin-top: 25px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 760px) {
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+        padding: 10px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-button {
+        width: auto;
+        white-space: nowrap;
+        margin: 0 4px;
+        padding: 11px;
+      }
+
+      .main {
+        padding: 22px 16px;
+      }
+
+      .grid,
+      .three-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        padding: 13px 17px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SPLASH SCREEN -->
+
+  <section id="splash">
+    <div class="splash-content">
+      <div class="logo-mark">S</div>
+      <div class="brand-name">StylePath</div>
+      <div class="tagline">PLAN. OUTFIT. REPEAT.</div>
+
+      <p class="splash-description">
+        Your wardrobe, your occasions, your personal style.
+        Discover outfits using clothes you already own.
+      </p>
+
+      <button class="btn" onclick="startApp()">
+        Get started →
+      </button>
+    </div>
+  </section>
+
+
+  <!-- MAIN APPLICATION -->
+
+  <section id="app" class="hidden">
+
+    <header class="topbar">
+      <div class="top-brand">Style<span>Path</span></div>
+      <small>Your personal style planner</small>
+    </header>
+
+    <div class="layout">
+
+      <!-- NAVIGATION -->
+
+      <nav class="sidebar">
+        <button class="nav-button active" onclick="showPage('home', this)">⌂ Home</button>
+        <button class="nav-button" onclick="showPage('wardrobe', this)">♧ My wardrobe</button>
+        <button class="nav-button" onclick="showPage('discover', this)">✧ Discover outfits</button>
+        <button class="nav-button" onclick="showPage('planner', this)">▦ Weekly planner</button>
+        <button class="nav-button" onclick="showPage('friends', this)">♡ Ask friends</button>
+        <button class="nav-button" onclick="showPage('gaps', this)">＋ Wardrobe gaps</button>
+        <button class="nav-button" onclick="showPage('profile', this)">⚙ Profile</button>
+      </nav>
+
+
+      <main class="main">
+
+        <!-- HOME PAGE -->
+
+        <section id="home" class="page active">
+
+          <div class="hero-card">
+            <h1>Welcome to StylePath ✨</h1>
+            <p>
+              Make getting dressed easier. Explore your wardrobe,
+              plan outfits and feel confident about what you wear.
+            </p>
+            <button class="btn" onclick="showPage('discover')">
+              Find an outfit
+            </button>
+          </div>
+
+          <h2>Your wardrobe at a glance</h2>
+
+          <div class="three-grid">
+            <div class="card">
+              <div class="stat" id="wardrobeCount">6</div>
+              <div class="stat-label">Wardrobe items</div>
+            </div>
+
+            <div class="card">
+              <div class="stat" id="savedCount">0</div>
+              <div class="stat-label">Saved outfits</div>
+            </div>
+
+            <div class="card">
+              <div class="stat">7</div>
+              <div class="stat-label">Days to plan</div>
+            </div>
+          </div>
+
+          <div class="card spaced">
+            <h2>Today's style reminder</h2>
+            <p class="muted">
+              You do not need a new outfit to look good.
+              Start with what you already own.
+            </p>
+          </div>
+
+        </section>
+
+
+        <!-- WARDROBE PAGE -->
+
+        <section id="wardrobe" class="page">
+
+          <h1>My wardrobe</h1>
+          <p class="subtitle">
+            Keep track of your clothing and discover new ways to wear it.
+          </p>
+
+          <div class="toolbar">
+            <input id="wardrobeSearch"
+                   placeholder="Search clothing..."
+                   oninput="renderWardrobe()">
+
+            <select id="categoryFilter" onchange="renderWardrobe()">
+              <option value="All">All categories</option>
+              <option value="Tops">Tops</option>
+              <option value="Bottoms">Bottoms</option>
+              <option value="Shoes">Shoes</option>
+              <option value="Outerwear">Outerwear</option>
+            </select>
+
+            <button class="btn" onclick="openAddItem()">
+              + Add item
+            </button>
+          </div>
+
+          <div id="wardrobeGrid" class="three-grid"></div>
+
+          <div id="addItemForm" class="card spaced hidden">
+            <h2>Add a wardrobe item</h2>
+
+            <label>Item name
+              <input id="newItemName" placeholder="e.g. White shirt">
+            </label>
+
+            <label>Category
+              <select id="newItemCategory">
+                <option>Tops</option>
+                <option>Bottoms</option>
+                <option>Shoes</option>
+                <option>Outerwear</option>
+              </select>
+            </label>
+
+            <label>Emoji or visual symbol
+              <input id="newItemEmoji" placeholder="e.g. 👕" maxlength="4">
+            </label>
+
+            <label>Colour
+              <input id="newItemColour" placeholder="e.g. White">
+            </label>
+
+            <button class="btn" onclick="addItem()">Save item</button>
+            <button class="btn btn-secondary" onclick="closeAddItem()">Cancel</button>
+          </div>
+
+        </section>
+
+
+        <!-- DISCOVER PAGE -->
+
+        <section id="discover" class="page">
+
+          <h1>Discover your outfit</h1>
+          <p class="subtitle">
+            Tell StylePath about your plans and receive outfit ideas
+            using your existing wardrobe.
+          </p>
+
+          <div class="card">
+            <h2>What is the occasion?</h2>
+
+            <label>Occasion
+              <select id="occasion">
+                <option>University / Everyday</option>
+                <option>Work</option>
+                <option>Casual outing</option>
+                <option>Dinner</option>
+                <option>Special event</option>
+                <option>Exercise</option>
+              </select>
+            </label>
+
+            <label>Weather
+              <select id="weather">
+                <option>Sunny</option>
+                <option>Warm</option>
+                <option>Cold</option>
+                <option>Rainy</option>
+                <option>Windy</option>
+              </select>
+            </label>
+
+            <label>How would you like to feel?
+              <select id="mood">
+                <option>Comfortable</option>
+                <option>Confident</option>
+                <option>Smart and polished</option>
+                <option>Relaxed</option>
+                <option>Creative</option>
+              </select>
+            </label>
+
+            <button class="btn" onclick="generateOutfit()">
+              Generate outfit ideas ✨
+            </button>
+          </div>
+
+          <div id="recommendations" class="spaced"></div>
+
+        </section>
+
+
+        <!-- PLANNER PAGE -->
+
+        <section id="planner" class="page">
+
+          <h1>Weekly planner</h1>
+          <p class="subtitle">
+            Organise your outfits ahead of time and make mornings easier.
+          </p>
+
+          <div class="card">
+            <h2>Your week</h2>
+            <div id="plannerDays"></div>
+          </div>
+
+        </section>
+
+
+        <!-- ASK FRIENDS PAGE -->
+
+        <section id="friends" class="page">
+
+          <h1>Ask friends</h1>
+          <p class="subtitle">
+            Want a second opinion? Share an outfit privately with
+            someone you trust. This feature is optional.
+          </p>
+
+          <div class="card">
+            <h2>Share an outfit idea</h2>
+
+            <label>Friend's name
+              <input id="friendName" placeholder="Enter a friend's name">
+            </label>
+
+            <label>What would you like to ask?
+              <textarea id="friendQuestion"
+                rows="3"
+                placeholder="Which outfit works better for dinner?"></textarea>
+            </label>
+
+            <label>
+              <input type="checkbox" id="hideFace" checked
+                     style="width:auto; margin-right:8px">
+              Hide faces and personal background details
+            </label>
+
+            <p class="muted" style="font-size:13px">
+              Demo privacy setting: shared links are intended to expire
+              after 24 hours.
+            </p>
+
+            <button class="btn" onclick="shareOutfit()">
+              Prepare private share
+            </button>
+
+            <button class="btn btn-secondary"
+                    onclick="document.getElementById('friendQuestion').value=''">
+              Skip this step
+            </button>
+
+            <div id="shareMessage"></div>
+          </div>
+
+        </section>
+
+
+        <!-- WARDROBE GAPS PAGE -->
+
+        <section id="gaps" class="page">
+
+          <h1>Wardrobe gap check</h1>
+          <p class="subtitle">
+            Check whether you already have something suitable
+            before deciding to shop.
+          </p>
+
+          <div class="card">
+            <h2>Plan for an upcoming event</h2>
+
+            <label>What are you planning for?
+              <select id="gapOccasion">
+                <option>Work event</option>
+                <option>Formal dinner</option>
+                <option>Casual outing</option>
+                <option>University</option>
+                <option>Outdoor event</option>
+              </select>
+            </label>
+
+            <button class="btn" onclick="checkGaps()">
+              Check my wardrobe
+            </button>
+
+            <div id="gapResult" class="spaced"></div>
+          </div>
+
+        </section>
+
+
+        <!-- PROFILE PAGE -->
+
+        <section id="profile" class="page">
+
+          <h1>Profile and privacy</h1>
+          <p class="subtitle">
+            Manage your preferences and how your information is used.
+          </p>
+
+          <div class="card">
+            <h2>Personal preferences</h2>
+
+            <label>Your name
+              <input id="profileName" value="StylePath User">
+            </label>
+
+            <label>Preferred style
+              <select>
+                <option>Casual</option>
+                <option>Minimalist</option>
+                <option>Smart casual</option>
+                <option>Classic</option>
+                <option>Creative</option>
+              </select>
+            </label>
+
+            <h2 class="spaced">Privacy settings</h2>
+
+            <label>
+              <input type="checkbox" checked
+                     style="width:auto; margin-right:8px">
+              Keep my wardrobe private by default
+            </label>
+
+            <label>
+              <input type="checkbox" checked
+                     style="width:auto; margin-right:8px">
+              Ask before sharing outfit information
+            </label>
+
+            <label>
+              <input type="checkbox" checked
+                     style="width:auto; margin-right:8px">
+              Allow face and background hiding options
+            </label>
+
+            <button class="btn" onclick="saveProfile()">
+              Save preferences
+            </button>
+
+            <div id="profileMessage"></div>
+          </div>
+
+          <p class="footer-note">
+            StylePath prototype: information is stored only in this
+            browser session. This demonstration does not use a secure
+            account, cloud database or real sharing service.
+          </p>
+
+        </section>
+
+      </main>
+    </div>
+  </section>
+
+
+  <script>
+
+    // SAMPLE WARDROBE DATA
+
+    let wardrobe = [
+      { id: 1, name: "White T-shirt", category: "Tops", emoji: "👕", colour: "White" },
+      { id: 2, name: "Blue jeans", category: "Bottoms", emoji: "👖", colour: "Blue" },
+      { id: 3, name: "Black trousers", category: "Bottoms", emoji: "👖", colour: "Black" },
+      { id: 4, name: "Sneakers", category: "Shoes", emoji: "👟", colour: "White" },
+      { id: 5, name: "Denim jacket", category: "Outerwear", emoji: "🧥", colour: "Blue" },
+      { id: 6, name: "Black shirt", category: "Tops", emoji: "👔", colour: "Black" }
+    ];
+
+    let savedOutfits = [];
+    let weeklyPlan = {};
+
+    const days = [
+      "Monday", "Tuesday", "Wednesday", "Thursday",
+      "Friday", "Saturday", "Sunday"
+    ];
+
+
+    // START APPLICATION
+
+    function startApp() {
+      document.getElementById("splash").classList.add("hidden");
+      document.getElementById("app").classList.remove("hidden");
+      renderWardrobe();
+      renderPlanner();
+      updateStats();
+    }
+
+
+    // NAVIGATION
+
+    function showPage(pageId, button) {
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(pageId).classList.add("active");
+
+      document.querySelectorAll(".nav-button").forEach(nav => {
+        nav.classList.remove("active");
+      });
+
+      if (button) {
+        button.classList.add("active");
+      } else {
+        document.querySelectorAll(".nav-button").forEach(nav => {
+          if (nav.getAttribute("onclick").includes("'" + pageId + "'")) {
+            nav.classList.add("active");
+          }
+        });
+      }
+
+      if (pageId === "wardrobe") renderWardrobe();
+      if (pageId === "planner") renderPlanner();
+    }
+
+
+    // WARDROBE FUNCTIONS
+
+    function renderWardrobe() {
+      const grid = document.getElementById("wardrobeGrid");
+      if (!grid) return;
+
+      const search = (document.getElementById("wardrobeSearch")?.value || "")
+        .toLowerCase();
+
+      const category =
+        document.getElementById("categoryFilter")?.value || "All";
+
+      const filtered = wardrobe.filter(item => {
+        const matchesSearch =
+          item.name.toLowerCase().includes(search) ||
+          item.colour.toLowerCase().includes(search);
+
+        const matchesCategory =
+          category === "All" || item.category === category;
+
+        return matchesSearch && matchesCategory;
+      });
+
+      grid.innerHTML = "";
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="empty-state">No matching items found.</div>';
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card wardrobe-item";
+
+        card.innerHTML = `
+          <div class="item-picture">${escapeHTML(item.emoji)}</div>
+          <div class="item-info">
+            <strong>${escapeHTML(item.name)}</strong>
+            <p>${escapeHTML(item.category)} · ${escapeHTML(item.colour)}</p>
+            <button class="btn btn-danger btn-small spaced"
+              onclick="deleteItem(${item.id})">Remove</button>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      updateStats();
+    }
+
+    function openAddItem() {
+      document.getElementById("addItemForm").classList.remove("hidden");
+    }
+
+    function closeAddItem() {
+      document.getElementById("addItemForm").classList.add("hidden");
+    }
+
+    function addItem() {
+      const name = document.getElementById("newItemName").value.trim();
+      const category = document.getElementById("newItemCategory").value;
+      const emoji = document.getElementById("newItemEmoji").value.trim() || "👕";
+      const colour = document.getElementById("newItemColour").value.trim() || "Not specified";
+
+      if (!name) {
+        alert("Please enter an item name.");
+        return;
+      }
+
+      wardrobe.push({
+        id: Date.now(),
+        name,
+        category,
+        emoji,
+        colour
+      });
+
+      document.getElementById("newItemName").value = "";
+      document.getElementById("newItemEmoji").value = "";
+      document.getElementById("newItemColour").value = "";
+
+      closeAddItem();
+      renderWardrobe();
+    }
+
+    function deleteItem(id) {
+      wardrobe = wardrobe.filter(item => item.id !== id);
+      renderWardrobe();
+    }
+
+
+    // OUTFIT RECOMMENDATION
+
+    function generateOutfit() {
+      const occasion = document.getElementById("occasion").value;
+      const weather = document.getElementById("weather").value;
+      const mood = document.getElementById("mood").value;
+
+      const tops = wardrobe.filter(item => item.category === "Tops");
+      const bottoms = wardrobe.filter(item => item.category === "Bottoms");
+      const shoes = wardrobe.filter(item => item.category === "Shoes");
+      const outerwear = wardrobe.filter(item => item.category === "Outerwear");
+
+      if (tops.length === 0 || bottoms.length === 0 || shoes.length === 0) {
+        document.getElementById("recommendations").innerHTML = `
+          <div class="card">
+            <p>Please add at least one top, one bottom and one pair of shoes
+            to your wardrobe before generating an outfit.</p>
+          </div>`;
+        return;
+      }
+
+      const top = chooseItem(tops, occasion);
+      const bottom = chooseItem(bottoms, occasion);
+      const shoe = shoes[0];
+
+      const needsLayer = ["Cold", "Rainy", "Windy"].includes(weather);
+      const layer = needsLayer && outerwear.length ? outerwear[0] : null;
+
+      const outfit = {
+        top,
+        bottom,
+        shoe,
+        layer,
+        occasion,
+        weather,
+        mood
+      };
+
+      const items = [top, bottom, shoe];
+      if (layer) items.push(layer);
+
+      const outfitHTML = `
+        <div class="card">
+          <h2>Your suggested outfit</h2>
+
+          <div class="outfit-visual">
+            ${items.map(item => `<span>${escapeHTML(item.emoji)}</span>`).join("")}
+          </div>
+
+          <div class="pill">${escapeHTML(occasion)}</div>
+          <div class="pill">${escapeHTML(weather)}</div>
+          <div class="pill">${escapeHTML(mood)}</div>
+
+          <h2 class="spaced">Your outfit includes</h2>
+
+          <p>${items.map(item =>
+            escapeHTML(item.name)
+          ).join(" · ")}</p>
+
+          <div class="reason">
+            <strong>Why this works</strong><br>
+            This combination uses items already in your wardrobe.
+            It is a starting suggestion for your ${escapeHTML(occasion.toLowerCase())}.
+            ${layer ? "The extra layer may help in the selected weather." : ""}
+            You can adjust it to suit your own comfort and style.
+          </div>
+
+          <button class="btn" onclick="saveOutfit()">
+            Save outfit
+          </button>
+
+          <button class="btn btn-secondary" onclick="generateOutfit()">
+            Try another
+          </button>
+
+          <button class="btn btn-outline" onclick="showPage('planner')">
+            Go to planner
+          </button>
+        </div>
+      `;
+
+      document.getElementById("recommendations").innerHTML = outfitHTML;
+      window.currentOutfit = outfit;
+    }
+
+    function chooseItem(items, occasion) {
+      if (occasion === "Work" || occasion === "Special event" ||
+          occasion === "Dinner") {
+        const dark = items.find(item =>
+          item.colour.toLowerCase() === "black"
+        );
+        if (dark) return dark;
+      }
+
+      return items[Math.floor(Math.random() * items.length)];
+    }
+
+    function saveOutfit() {
+      if (!window.currentOutfit) return;
+
+      savedOutfits.push(window.currentOutfit);
+      updateStats();
+
+      alert("Your outfit has been saved!");
+    }
+
+
+    // WEEKLY PLANNER
+
+    function renderPlanner() {
+      const container = document.getElementById("plannerDays");
+      if (!container) return;
+
+      container.innerHTML = "";
+
+      days.forEach(day => {
+        const row = document.createElement("div");
+        row.className = "day-row";
+
+        const planned = weeklyPlan[day];
+
+        row.innerHTML = `
+          <div>
+            <strong>${day}</strong>
+            <p class="muted" style="font-size:13px; margin-top:5px">
+              ${planned ? escapeHTML(planned) : "No outfit planned"}
+            </p>
+          </div>
+
+          <button class="btn btn-small btn-secondary"
+            onclick="planDay('${day}')">
+            ${planned ? "Change" : "Add outfit"}
+          </button>
+        `;
+
+        container.appendChild(row);
+      });
+    }
+
+    function planDay(day) {
+      if (savedOutfits.length === 0) {
+        alert("Generate and save an outfit first.");
+        return;
+      }
+
+      const choices = savedOutfits.map((outfit, index) =>
+        `${index + 1}. ${outfit.top.name} + ${outfit.bottom.name}`
+      );
+
+      const answer = prompt(
+        "Choose an outfit number:\n" + choices.join("\n")
+      );
+
+      const index = Number(answer) - 1;
+
+      if (Number.isInteger(index) &&
+          index >= 0 && index < savedOutfits.length) {
+        const outfit = savedOutfits[index];
+
+        weeklyPlan[day] =
+          `${outfit.top.name} + ${outfit.bottom.name}`;
+
+        renderPlanner();
+      }
+    }
+
+
+    // ASK FRIENDS
+
+    function shareOutfit() {
+      const name = document.getElementById("friendName").value.trim();
+      const question = document.getElementById("friendQuestion").value.trim();
+      const hideFace = document.getElementById("hideFace").checked;
+
+      if (!name || !question) {
+        alert("Please enter a friend's name and your question.");
+        return;
+      }
+
+      document.getElementById("shareMessage").innerHTML = `
+        <div class="reason">
+          <strong>Demo share prepared</strong><br>
+          Recipient: ${escapeHTML(name)}<br>
+          Question: ${escapeHTML(question)}<br>
+          Privacy option: ${hideFace ? "Face/background hiding selected" : "No hiding selected"}<br>
+          Intended expiry: 24 hours<br><br>
+          No message has actually been sent. A real application would
+          require secure sharing and recipient permissions.
+        </div>
+      `;
+    }
+
+
+    // WARDROBE GAP CHECK
+
+    function checkGaps() {
+      const occasion = document.getElementById("gapOccasion").value;
+      const result = document.getElementById("gapResult");
+
+      const hasTop = wardrobe.some(item => item.category === "Tops");
+      const hasBottom = wardrobe.some(item => item.category === "Bottoms");
+      const hasShoes = wardrobe.some(item => item.category === "Shoes");
+
+      const missing = [];
+
+      if (!hasTop) missing.push("a suitable top");
+      if (!hasBottom) missing.push("suitable bottoms");
+      if (!hasShoes) missing.push("suitable shoes");
+
+      if (missing.length === 0) {
+        result.innerHTML = `
+          <div class="reason">
+            <strong>You may already have what you need!</strong><br>
+            Your wardrobe contains tops, bottoms and shoes.
+            Try creating an outfit before considering a purchase for
+            your ${escapeHTML(occasion.toLowerCase())}.
+          </div>
+        `;
+      } else {
+        result.innerHTML = `
+          <div class="reason">
+            Your wardrobe may need ${missing.join(", ")} for this plan.
+            Check what you own before deciding whether to shop.
+          </div>
+        `;
+      }
+    }
+
+
+    // PROFILE
+
+    function saveProfile() {
+      const name = document.getElementById("profileName").value.trim();
+
+      document.getElementById("profileMessage").innerHTML = `
+        <p class="success-message">
+          Preferences updated for ${escapeHTML(name || "StylePath User")}.
+          (Demo only)
+        </p>
+      `;
+    }
+
+
+    // DASHBOARD COUNTERS
+
+    function updateStats() {
+      document.getElementById("wardrobeCount").textContent = wardrobe.length;
+      document.getElementById("savedCount").textContent = savedOutfits.length;
+    }
+
+
+    // BASIC HTML ESCAPING FOR USER-ENTERED TEXT
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[character]);
+    }
+
+  </script>
+
+</body>
+</html>

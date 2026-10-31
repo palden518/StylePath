@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StylePath | My Wardrobe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h2 class="top-brand">Style<span>Path</span></h2>
+  <small>My collection</small>
+</header>
+
+<main class="main">
+
+  <h1>My wardrobe</h1>
+  <p class="subtitle">
+    Keep track of your clothing and discover new ways to wear it.
+  </p>
+
+  <input id="wardrobeSearch"
+         placeholder="Search clothing..."
+         oninput="renderWardrobe()">
+
+  <select id="categoryFilter" onchange="renderWardrobe()">
+    <option value="All">All categories</option>
+    <option value="Tops">Tops</option>
+    <option value="Bottoms">Bottoms</option>
+    <option value="Shoes">Shoes</option>
+    <option value="Outerwear">Outerwear</option>
+  </select>
+
+  <button class="btn spaced" onclick="openAddItem()">
+    + Add item
+  </button>
+
+  <section id="wardrobeGrid" class="three-grid spaced"></section>
+
+  <section id="addItemForm" class="card hidden">
+    <h2>Add a wardrobe item</h2>
+
+    <label>Item name
+      <input id="newItemName" placeholder="e.g. White shirt">
+    </label>
+
+    <label>Category
+      <select id="newItemCategory">
+        <option>Tops</option>
+        <option>Bottoms</option>
+        <option>Shoes</option>
+        <option>Outerwear</option>
+      </select>
+    </label>
+
+    <label>Emoji
+      <input id="newItemEmoji" placeholder="👕">
+    </label>
+
+    <label>Colour
+      <input id="newItemColour" placeholder="White">
+    </label>
+
+    <button class="btn" onclick="addItem()">Save item</button>
+    <button class="btn btn-secondary" onclick="closeAddItem()">Cancel</button>
+  </section>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="home.html">⌂<span>Home</span></a>
+  <a class="active" href="wardrobe.html">♧<span>Wardrobe</span></a>
+  <a href="discover.html">✧<span>Discover</span></a>
+  <a href="planner.html">▦<span>Planner</span></a>
+  <a href="profile.html">⚙<span>Profile</span></a>
+</nav>
+
+<script src="script.js"></script>
+</body>
+</html>
